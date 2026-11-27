@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nagrik Bank - CBS Admin & Branch Operations Portal</title>
+    <link rel="stylesheet" href="member_1.css">
+</head>
+<body id="admin-view" class="admin-portal-body">
+
+    <!-- ================= TOP ADMIN NAVIGATION HEADER ================= -->
+    <header class="bank-header admin-header">
+        <div class="header-container admin-header-container">
+            <a href="admin.html" class="brand-wrapper">
+                <div class="brand-icon-box admin-brand-icon">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 1L2 6v2h20V6L12 1zm-7 8v9h3V9H5zm5 0v9h3V9h-3zm5 0v9h3V9h-3zm-9 11v2h18v-2H3z"/>
+                    </svg>
+                </div>
+                <div class="brand-text">
+                    <span class="brand-name">NAGRIK BANK</span>
+                    <span class="brand-tagline admin-tagline">CBS Staff Terminal • Branch #0402 (Civil Lines)</span>
+                </div>
+            </a>
+
+            <!-- Admin Main Navigation Tabs -->
+            <nav class="main-nav admin-nav">
+                <button type="button" class="admin-nav-btn active" data-target="panel-overview">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                    <span>Branch Overview</span>
+                </button>
+                <button type="button" class="admin-nav-btn" data-target="panel-customers">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                    <span>Customer Accounts</span>
+                </button>
+                <button type="button" class="admin-nav-btn" data-target="panel-teller">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"></rect><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                    <span>Cashier &amp; Counter Desk</span>
+                </button>
+                <button type="button" class="admin-nav-btn" data-target="panel-loans">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                    <span>Loan Desk <span class="admin-pill-badge" id="pending-loan-badge">2</span></span>
+                </button>
+                <button type="button" class="admin-nav-btn" data-target="panel-audit">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    <span>Surveillance &amp; Audit</span>
+                </button>
+                <button type="button" class="admin-nav-btn" data-target="panel-onboard">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
+                    <span>Onboard Customer</span>
+                </button>
+            </nav>
+
+            <div class="header-actions">
+                <!-- Theme Toggle -->
+                <button class="btn-icon" id="theme-toggle-btn" title="Toggle Light/Dark Theme">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                </button>
+
+                <!-- Admin Staff Badge -->
+                <div class="user-profile-badge admin-badge-wrap">
+                    <div class="avatar-circle admin-avatar">VM</div>
+                    <div class="user-name-role">
+                        <span class="badge-name" id="admin-staff-name">Vikram Malhotra</span>
+                        <span class="badge-status admin-role-tag">● Sr. Branch Manager</span>
+                    </div>
+                </div>
+
+                <!-- Admin Logout -->
+                <a href="index.html" class="btn-logout-nav" id="btn-admin-logout" title="Exit Admin Terminal">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Branch Operations Status Strip -->
+    <div class="admin-status-strip">
+        <div class="status-strip-container">
+            <div class="status-item">
+                <span class="pulse-indicator green"></span>
+                <span>CBS Gateway: <strong>Live &amp; Synced</strong></span>
+            </div>
+            <div class="status-divider"></div>
+            <div class="status-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                <span>Branch Vault Reserve: <strong id="strip-vault-reserve">₹1,45,20,000</strong></span>
+            </div>
+            <div class="status-divider"></div>
+            <div class="status-item">
+                <span>Clearing Batch: <strong>Cycle #03 (16:00 IST)</strong></span>
+            </div>
+            <div class="status-divider"></div>
+            <div class="status-item">
+                <span id="live-clock">25 Nov 2026 | 10:00:00 AM</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= MAIN ADMIN CONTENT WRAPPER ================= -->
+    <main class="main-wrapper admin-main-wrapper">
+
+        <!-- ================= PANEL 1: OVERVIEW & KPIS ================= -->
+        <section class="admin-panel active" id="panel-overview">
+            <div class="panel-header-row">
+                <div>
+                    <h1 class="panel-title">Branch Performance &amp; Core Banking Metrics</h1>
+                    <p class="panel-subtitle">Real-time surveillance of deposits, liquidity reserves, and counter clearing for Branch #0402.</p>
+                </div>
+                <div class="panel-header-actions">
+                    <button class="btn-secondary" id="btn-refresh-admin-metrics">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                        <span>Refresh Metrics</span>
+                    </button>
+                    <button class="btn-primary" id="btn-quick-teller-deposit">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        <span>Walk-in Cash Deposit</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- KPI Metric Cards Grid -->
+            <div class="metric-grid admin-kpi-grid">
+                <div class="metric-card admin-metric-card">
+                    <div class="metric-card-top">
+                        <span class="metric-title">Total Customer Deposits</span>
+                        <div class="kpi-icon-pill blue">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+                        </div>
+                    </div>
+                    <div class="metric-value" id="kpi-total-deposits">₹0.00</div>
+                    <div class="metric-footer">
+                        <span class="trend-badge positive">↑ Active</span>
+                        <span class="trend-text">All active customer liquid balances</span>
+                    </div>
+                </div>
+
+                <div class="metric-card admin-metric-card">
+                    <div class="metric-card-top">
+                        <span class="metric-title">Active Bank Accounts</span>
+                        <div class="kpi-icon-pill green">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+                        </div>
+                    </div>
+                    <div class="metric-value" id="kpi-active-accounts">4 Customers</div>
+                    <div class="metric-footer">
+                        <span class="trend-badge neutral">100% KYC</span>
+                        <span class="trend-text">Fully verified customer profiles</span>
+                    </div>
+                </div>
+
+                <div class="metric-card admin-metric-card">
+                    <div class="metric-card-top">
+                        <span class="metric-title">Today's Counter Volume</span>
+                        <div class="kpi-icon-pill amber">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                        </div>
+                    </div>
+                    <div class="metric-value" id="kpi-clearing-volume">₹1,85,400.00</div>
+                    <div class="metric-footer">
+                        <span class="trend-badge positive">↑ Normal</span>
+                        <span class="trend-text">Cleared via RTGS, IMPS &amp; Cashier</span>
+                    </div>
+                </div>
+
+                <div class="metric-card admin-metric-card">
+                    <div class="metric-card-top">
+                        <span class="metric-title">Cash Reserve Ratio (CRR)</span>
+                        <div class="kpi-icon-pill purple">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 14 14"></polyline></svg>
+                        </div>
+                    </div>
+                    <div class="metric-value">18.5%</div>
+                    <div class="metric-footer">
+                        <span class="trend-badge positive">RBI Safe</span>
+                        <span class="trend-text">Exceeds 4.5% statutory requirement</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Two-Column Overview Content -->
+            <div class="admin-overview-grid">
+                <!-- Left: Recent System-Wide Transactions -->
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <div>
+                            <h3 class="admin-card-title">Live Transaction Monitor</h3>
+                            <p class="admin-card-sub">Real-time ledger updates across all accounts</p>
+                        </div>
+                        <button class="btn-text-action" id="btn-view-all-audit">View All Audit</button>
+                    </div>
+                    <div class="admin-table-wrap">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Ref / Time</th>
+                                    <th>Customer / Party</th>
+                                    <th>Type</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="overview-recent-txns-tbody">
+                                <!-- Populated dynamically by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Right: Quick Branch Actions & Alerts -->
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <div>
+                            <h3 class="admin-card-title">Branch Ops &amp; Security Alerts</h3>
+                            <p class="admin-card-sub">Immediate action required</p>
+                        </div>
+                    </div>
+                    <div class="admin-action-list">
+                        <div class="admin-alert-item warning">
+                            <div class="alert-icon-box">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                            </div>
+                            <div class="alert-content">
+                                <h4 class="alert-title">High-Value NEFT Transfer Flagged</h4>
+                                <p class="alert-desc">Transfer of ₹1,20,000 requires Senior Officer Dual Authorization.</p>
+                                <div class="alert-action-btns">
+                                    <button class="btn-alert-action" onclick="window.BankStore.showToast('Transfer authorized successfully by Branch Manager.', 'success')">Authorize Transfer</button>
+                                    <button class="btn-alert-dismiss" onclick="this.closest('.admin-alert-item').remove()">Dismiss</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="admin-alert-item info">
+                            <div class="alert-icon-box">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                            </div>
+                            <div class="alert-content">
+                                <h4 class="alert-title">Pending Home Loan Application</h4>
+                                <p class="alert-desc">Applicant: <strong>Rohit Saraswat</strong> (Customer ID: NB123456) for ₹5,00,000.</p>
+                                <div class="alert-action-btns">
+                                    <button class="btn-alert-action" onclick="document.querySelector('[data-target=\'panel-loans\']').click()">Review Application</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="admin-alert-item success">
+                            <div class="alert-icon-box">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                            </div>
+                            <div class="alert-content">
+                                <h4 class="alert-title">EOD Daily Clearing Settlement</h4>
+                                <p class="alert-desc">Batch #02 settled successfully with NPCI gateway.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PANEL 2: CUSTOMER ACCOUNTS (CBS ROSTER) ================= -->
+        <section class="admin-panel" id="panel-customers">
+            <div class="panel-header-row">
+                <div>
+                    <h1 class="panel-title">Customer Account Management (Core Banking)</h1>
+                    <p class="panel-subtitle">Search, view, audit, freeze/unfreeze customer accounts, and adjust daily limits.</p>
+                </div>
+                <div class="panel-header-actions">
+                    <button class="btn-primary" onclick="document.querySelector('[data-target=\'panel-onboard\']').click()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        <span>New Customer Account</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Customer Search & Filter Toolbar -->
+            <div class="admin-search-toolbar">
+                <div class="search-input-wrap">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    <input type="text" class="form-input" id="admin-customer-search-input" placeholder="Search by Customer Name, Customer ID (e.g. NB123456), or Account Number...">
+                </div>
+                <select class="form-select" id="filter-customer-status" style="width:160px;">
+                    <option value="all">All Statuses</option>
+                    <option value="active">Active Only</option>
+                    <option value="frozen">Frozen Only</option>
+                </select>
+                <select class="form-select" id="filter-customer-type" style="width:180px;">
+                    <option value="all">All Account Types</option>
+                    <option value="savings">Savings Accounts</option>
+                    <option value="current">Current Accounts</option>
+                    <option value="salary">Salary Accounts</option>
+                </select>
+            </div>
+
+            <!-- Customers Roster Table -->
+            <div class="admin-card">
+                <div class="admin-table-wrap">
+                    <table class="admin-table" id="customer-roster-table">
+                        <thead>
+                            <tr>
+                                <th>Customer ID</th>
+                                <th>Account Holder</th>
+                                <th>Account No.</th>
+                                <th>Account Type</th>
+                                <th>Liquid Balance</th>
+                                <th>Status</th>
+                                <th>KYC Badge</th>
+                                <th>Administrative Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="customer-roster-tbody">
+                            <!-- Populated dynamically by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PANEL 3: CASHIER & COUNTER DESK ================= -->
+        <section class="admin-panel" id="panel-teller">
+            <div class="panel-header-row">
+                <div>
+                    <h1 class="panel-title">Branch Cashier &amp; Counter Desk</h1>
+                    <p class="panel-subtitle">Direct walk-in counter operations for customer cash deposit and withdrawal with instant ledger updates.</p>
+                </div>
+            </div>
+
+            <div class="teller-workspace-grid">
+                <!-- Left: Teller Operation Form -->
+                <div class="admin-card teller-form-card">
+                    <div class="admin-card-header">
+                        <h3 class="admin-card-title">Walk-in Counter Voucher</h3>
+                        <span class="teller-tag">Teller Window #02</span>
+                    </div>
+
+                    <form id="teller-operation-form" class="teller-form">
+                        <!-- Quick Select Customer -->
+                        <div class="form-group">
+                            <label class="form-label">Customer ID / Account Number</label>
+                            <div class="input-with-button-wrap">
+                                <input type="text" class="form-input" id="teller-customer-id" placeholder="Enter Customer ID (e.g. NB123456)" value="NB123456" required>
+                                <button type="button" class="btn-secondary" id="btn-teller-lookup">Lookup Account</button>
+                                <button type="button" class="btn-quick-fill" id="btn-teller-fill-rohit">Select Rohit Saraswat</button>
+                            </div>
+                        </div>
+
+                        <!-- Customer Preview Info Box -->
+                        <div class="teller-customer-preview-box" id="teller-preview-box">
+                            <div class="preview-avatar">RS</div>
+                            <div class="preview-details">
+                                <div class="preview-name" id="preview-name">Rohit Saraswat</div>
+                                <div class="preview-acc" id="preview-acc">A/C: 4582 8920 4582 • Primary Savings</div>
+                            </div>
+                            <div class="preview-balance-box">
+                                <span class="lbl">Current Balance</span>
+                                <span class="val" id="preview-current-balance">₹0.00</span>
+                            </div>
+                        </div>
+
+                        <!-- Transaction Type Toggle -->
+                        <div class="form-group">
+                            <label class="form-label">Operation Type</label>
+                            <div class="teller-type-selector">
+                                <label class="teller-radio-label deposit active">
+                                    <input type="radio" name="teller-type" value="deposit" checked>
+                                    <span class="icon">↓</span>
+                                    <span>Cash Deposit (Credit)</span>
+                                </label>
+                                <label class="teller-radio-label withdraw">
+                                    <input type="radio" name="teller-type" value="withdrawal">
+                                    <span class="icon">↑</span>
+                                    <span>Cash Withdrawal (Debit)</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Amount & Denomination -->
+                        <div class="form-row" style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+                            <div class="form-group">
+                                <label class="form-label">Transaction Amount (₹)</label>
+                                <div class="input-with-icon-wrap">
+                                    <span class="currency-symbol">₹</span>
+                                    <input type="number" class="form-input currency-input" id="teller-amount" placeholder="e.g. 5000" min="10" step="1" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Counter Slip / Voucher No.</label>
+                                <input type="text" class="form-input" id="teller-slip-no" value="SLIP-90412" required>
+                            </div>
+                        </div>
+
+                        <!-- Remarks -->
+                        <div class="form-group">
+                            <label class="form-label">Teller Remarks / Narration</label>
+                            <input type="text" class="form-input" id="teller-narration" placeholder="e.g. Branch Counter Cash Deposit by Account Holder" value="Branch Counter Cash Deposit">
+                        </div>
+
+                        <!-- Action Submit -->
+                        <button type="submit" class="btn-primary btn-large-teller" id="btn-process-teller">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <span>Process &amp; Issue Voucher</span>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Right: Teller Receipt & History -->
+                <div class="admin-card teller-history-card">
+                    <div class="admin-card-header">
+                        <h3 class="admin-card-title">Recent Counter Vouchers</h3>
+                        <span class="teller-history-count" id="teller-session-count">0 Cleared</span>
+                    </div>
+
+                    <div class="teller-recent-list" id="teller-recent-list">
+                        <!-- Populated by JS -->
+                        <div class="empty-teller-placeholder" id="teller-empty-placeholder">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="40" height="40"><rect x="2" y="4" width="20" height="16" rx="2"></rect><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                            <p>No counter transactions executed this session yet. Submit a deposit or withdrawal on the left to see instant vouchers here.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PANEL 4: LOAN & CREDIT DESK ================= -->
+        <section class="admin-panel" id="panel-loans">
+            <div class="panel-header-row">
+                <div>
+                    <h1 class="panel-title">Loan &amp; Credit Line Processing Desk</h1>
+                    <p class="panel-subtitle">Review, approve, or reject customer loan and overdraft credit applications.</p>
+                </div>
+            </div>
+
+            <div class="admin-card">
+                <div class="admin-table-wrap">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Application ID</th>
+                                <th>Applicant</th>
+                                <th>Loan Category</th>
+                                <th>Requested Amount</th>
+                                <th>Tenure &amp; Interest</th>
+                                <th>CIBIL Score</th>
+                                <th>Status</th>
+                                <th>Sanction Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="loan-applications-tbody">
+                            <!-- Statically populated with dynamic action handlers in JS -->
+                            <tr id="loan-row-LN-8021">
+                                <td><code>LN-8021</code></td>
+                                <td>
+                                    <div class="cust-cell">
+                                        <div class="avatar-sm">RS</div>
+                                        <div>
+                                            <strong>Rohit Saraswat</strong>
+                                            <span class="sub">ID: NB123456</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Home Renovation Loan</td>
+                                <td><strong>₹5,00,000.00</strong></td>
+                                <td>36 Mos @ 8.75% p.a.</td>
+                                <td><span class="badge-cibil excellent">792 (Excellent)</span></td>
+                                <td><span class="status-pill pending" id="loan-status-LN-8021">Pending Review</span></td>
+                                <td>
+                                    <div class="table-actions">
+                                        <button class="btn-table-action approve" onclick="window.AdminModule.handleLoanAction('LN-8021', 'approve')">Approve Loan</button>
+                                        <button class="btn-table-action reject" onclick="window.AdminModule.handleLoanAction('LN-8021', 'reject')">Reject</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr id="loan-row-LN-8022">
+                                <td><code>LN-8022</code></td>
+                                <td>
+                                    <div class="cust-cell">
+                                        <div class="avatar-sm">PS</div>
+                                        <div>
+                                            <strong>Priya Sharma</strong>
+                                            <span class="sub">ID: NB458921</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Vehicle Loan (EV Car)</td>
+                                <td><strong>₹3,50,000.00</strong></td>
+                                <td>24 Mos @ 9.20% p.a.</td>
+                                <td><span class="badge-cibil good">745 (Good)</span></td>
+                                <td><span class="status-pill success">Approved &amp; Disbursed</span></td>
+                                <td>
+                                    <div class="table-actions">
+                                        <button class="btn-table-action" disabled>Completed</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr id="loan-row-LN-8023">
+                                <td><code>LN-8023</code></td>
+                                <td>
+                                    <div class="cust-cell">
+                                        <div class="avatar-sm">AV</div>
+                                        <div>
+                                            <strong>Amit Verma</strong>
+                                            <span class="sub">ID: NB782103</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>MSME Working Capital OD</td>
+                                <td><strong>₹8,00,000.00</strong></td>
+                                <td>12 Mos @ 10.50% p.a.</td>
+                                <td><span class="badge-cibil average">690 (Average)</span></td>
+                                <td><span class="status-pill warning" id="loan-status-LN-8023">Under Audit</span></td>
+                                <td>
+                                    <div class="table-actions">
+                                        <button class="btn-table-action approve" onclick="window.AdminModule.handleLoanAction('LN-8023', 'approve')">Approve Loan</button>
+                                        <button class="btn-table-action reject" onclick="window.AdminModule.handleLoanAction('LN-8023', 'reject')">Reject</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PANEL 5: AUDIT & SURVEILLANCE ================= -->
+        <section class="admin-panel" id="panel-audit">
+            <div class="panel-header-row">
+                <div>
+                    <h1 class="panel-title">System-Wide Audit &amp; Transaction Surveillance</h1>
+                    <p class="panel-subtitle">Comprehensive transaction trail across all channels (UPI, IMPS, NEFT, Branch Counter).</p>
+                </div>
+                <div class="panel-header-actions">
+                    <button class="btn-secondary" id="btn-export-audit-csv">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        <span>Export Audit CSV</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Surveillance Filter Bar -->
+            <div class="admin-search-toolbar">
+                <div class="search-input-wrap">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    <input type="text" class="form-input" id="audit-search-input" placeholder="Filter by transaction ref, party, or category...">
+                </div>
+                <select class="form-select" id="audit-filter-type" style="width:180px;">
+                    <option value="all">All Channels</option>
+                    <option value="credit">Credits (Inward)</option>
+                    <option value="debit">Debits (Outward)</option>
+                </select>
+            </div>
+
+            <div class="admin-card">
+                <div class="admin-table-wrap">
+                    <table class="admin-table" id="audit-master-table">
+                        <thead>
+                            <tr>
+                                <th>Transaction Ref</th>
+                                <th>Timestamp</th>
+                                <th>Party / Description</th>
+                                <th>Channel / Mode</th>
+                                <th>Flow</th>
+                                <th>Amount</th>
+                                <th>Surveillance Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="audit-master-tbody">
+                            <!-- Populated dynamically by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PANEL 6: ONBOARD NEW CUSTOMER ================= -->
+        <section class="admin-panel" id="panel-onboard">
+            <div class="panel-header-row">
+                <div>
+                    <h1 class="panel-title">Customer Onboarding &amp; Account Opening</h1>
+                    <p class="panel-subtitle">Open a new NetBanking customer savings or current account directly from the branch terminal.</p>
+                </div>
+            </div>
+
+            <div class="admin-card onboard-form-card">
+                <form id="onboard-customer-form" class="onboard-form">
+                    <div class="form-section-title">1. Personal &amp; Identity Details</div>
+                    <div class="form-grid-3">
+                        <div class="form-group">
+                            <label class="form-label">Full Name of Applicant</label>
+                            <input type="text" class="form-input" id="onboard-name" placeholder="e.g. Ramesh Chandra" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Mobile Number</label>
+                            <input type="tel" class="form-input" id="onboard-mobile" placeholder="+91 98765 12345" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email Address</label>
+                            <input type="email" class="form-input" id="onboard-email" placeholder="ramesh.c@example.com" required>
+                        </div>
+                    </div>
+
+                    <div class="form-grid-3">
+                        <div class="form-group">
+                            <label class="form-label">PAN Number</label>
+                            <input type="text" class="form-input" id="onboard-pan" placeholder="ABCDE1234F" style="text-transform:uppercase;" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Aadhaar UID Number</label>
+                            <input type="text" class="form-input" id="onboard-aadhaar" placeholder="1234 5678 9012" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">KYC Document Status</label>
+                            <select class="form-select" id="onboard-kyc-status">
+                                <option value="verified" selected>Physically Verified (Branch Biometrics)</option>
+                                <option value="pending">Pending Document Submission</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-section-title" style="margin-top:24px;">2. Account Selection &amp; Initial Deposit</div>
+                    <div class="form-grid-3">
+                        <div class="form-group">
+                            <label class="form-label">Account Scheme</label>
+                            <select class="form-select" id="onboard-acc-type">
+                                <option value="Savings">Nagrik Prime Savings (4.0% p.a.)</option>
+                                <option value="Current">Nagrik Commercial Current Account</option>
+                                <option value="Salary">Corporate Salary Account</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Initial Cash Deposit (₹)</label>
+                            <input type="number" class="form-input" id="onboard-deposit" placeholder="Min. ₹1,000" min="500" value="5000" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Branch Code</label>
+                            <input type="text" class="form-input" value="0402 - Civil Lines" disabled>
+                        </div>
+                    </div>
+
+                    <div class="onboard-actions-row">
+                        <button type="submit" class="btn-primary btn-large-onboard">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
+                            <span>Issue Customer ID &amp; Open Account</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Customer Mini-Statement Modal -->
+    <div class="modal-backdrop" id="customer-statement-modal" style="display:none;">
+        <div class="modal-box modal-lg">
+            <div class="modal-header">
+                <div>
+                    <h3 class="modal-title" id="stmt-modal-title">Customer Ledger &amp; Profile</h3>
+                    <p class="modal-sub" id="stmt-modal-sub">Account Details</p>
+                </div>
+                <button class="modal-close" onclick="closeModal('customer-statement-modal')">&times;</button>
+            </div>
+            <div class="modal-body" id="stmt-modal-body">
+                <!-- Dynamically loaded -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary" onclick="closeModal('customer-statement-modal')">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Scripts -->
+    <script src="member_1.js"></script>
+</body>
+</html>
